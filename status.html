@@ -1,0 +1,80 @@
+<html>
+<head>
+$(if refresh-timeout)
+<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+$(endif)
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Internet hotspot - Status</title>
+<link rel="stylesheet" href="css/style.css">
+<script>
+
+$(if advert-pending == 'yes')
+    var popup = '';
+    function focusAdvert() {
+	if (window.focus) popup.focus();
+    }
+    function openAdvert() {
+	popup = open('$(link-advert)', 'hotspot_advert', '');
+	setTimeout("focusAdvert()", 1000);
+    }
+$(endif)
+    function openLogout() {
+	if (window.name != 'hotspot_status') return true;
+        open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+	window.close();
+	return false;
+    }
+</script>
+    
+</head>
+<body $(if advert-pending == 'yes') onLoad="openAdvert()" $(endif)>
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap">
+                $(if login-by == 'trial')
+                    <h1>Hi, trial user!</h1>
+                $(elif login-by != 'mac')
+                    <h1>Hi, $(username)!</h1>
+                    <span style="display: none" id="user">$(username)</span>
+                $(endif)                
+
+                <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+                    <table>
+                        <tr><td>IP address</td><td>$(ip)</td></tr>
+                        <tr><td>MAC address</td><td>$(mac)</td></tr>
+                        <tr><td>Bytes up / down</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
+                    $(if session-time-left)
+                        <tr><td>Connected / left</td><td><span id="upt1">$(uptime)</span> / <span id="stl">$(session-time-left)</span></td></tr>
+                    $(else)
+                        <tr><td>Connected</td><td><span id="upt2">$(uptime)</span></td></tr>
+                    $(endif)
+                    $(if blocked == 'yes')
+                        <tr><td>Status</td><td>
+                    <a href="$(link-advert)" target="hotspot_advert">Advertisement required</a></td>
+                        </tr>
+                    $(elif refresh-timeout)
+                        <tr><td>Status refresh</td><td>$(refresh-timeout)</td></tr>
+                    $(endif)
+                    <tr><td>Expired</td><td style="padding-top:0px; padding-left:2px; background-color: #FFFFFF"><iframe id="exp" frameborder="0" scrolling="no" src="about:blank"></iframe></td></tr>
+                        </table>
+                    $(if login-by-mac != 'yes')
+                    <!-- user manager link. if user manager resides on other router, replace $(hostname) by its address
+                    <button onclick="document.location='http://$(hostname)/user?subs='; return false;">status</button>
+                    <!-- end of user manager link -->
+                    <input type="submit" value="Log out">
+                    $(endif)
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="conf.js"></script>
+
+<script type="text/javascript">
+var ma=['wqfCqAA=','KMO2AQ==','w7dBAA==','IHJM','PB7CpQ==','csKTDw==','w484wo8=','wpXDtcKu','w5VEw6Y=','wpwRSw==','LcOjEw==','wpnClEk=','wqMBwqY=','woxxdg==','w7dOfw==','wrnDh14=','wph+Yw==','bMOfAg==','wqAMw78=','czrCug==','VcKtDw==','w79KWg==','wo7CpRY=','w5jCjcOC','wrzDrsKb','EcK7Ng==','wo0dwo4=','dMO4wqo=','w6BZBw==','R8K6Jw==','wo1JVQ==','w4jCjcOm','wrwRwqM=','wqHDoEA=','UMO4wqA=','wo/CmsKj','w4vClMKx','wpMZUw==','w65kcg==','w4RqXQ==','w4JXwp8=','wrLCnRI=','wqMEwqg=','wq1zw7E=','wqtDfQ==','OMK0XQ==','w4rDuzw=','wrkfwqw=','w4fCpMOt','VMO+Dg==','w44vwqU=','wqtyw7s=','wrHDgMKV','w57CksKt','w58WSA==','O8KGeQ==','w5Bwfw==','w5VYw5A=','JcO9DQ==','AyRv','w7Qpw64=','w6xORw==','w6tfEw==','wrgSwp0=','OHVf','w7Ngfw==','w4hBVg==','w6/Dl8KY','JBJ3','w4dteQ==','OsK4LQ==','w5/CgsKJ','w64Vbw==','FhZm','w4rCmsOa','P8OnEQ==','CgLCrA==','w5tBw6A=','woUxCg==','EBJ+','w5ccdw==','XW7CsA==','w7FfDA==','wpsZVA==','w6oALQ==','w5tlLg==','w45sXQ==','w6HDuG4=','w5TCoMOt','w5AqfA==','woo5w7g=','w65CXQ==','w69TDQ==','w4sVeA==','GsKoQQ==','fMOlwqM=','w5tkdg==','QcK5Jg==','PMKGZQ==','YFc/','LcKNbA==','w7URMw==','wr7DsEU=','woNiwr8=','wo9KFg==','IMKmJw==','w6BIXQ==','DsKNJw==','wqfDgVo=','wrHDlEk=','SD7Cpg==','b3DCvA==','woXCjgY=','wqwHw4Q=','wq9aw5Q=','wqLDsFM=','wpMILw==','w6d7Bg==','cU5n','AhVz','wo0SVA==','WsK3w5Y=','w6pBBg==','w4w4wpk=','wq4fXQ==','w5cxYw==','w6wPKg==','wr0Rwqo=','EsKIZQ==','wo8Pwrg=','w6/DlsKI','G8Omwos=','w5TCpMOq','w54twpk=','Fypx','wqoHwow=','w5RQDQ==','wps7w74=','dMK3woM=','w4pew6c=','ZAA/','CcKuLA==','w6zCpBw=','JRU0','wp9EHQ==','w7rCkQo=','w6rDuHQ=','woMrJA==','w6oAJA==','wqVyw7E=','wow5Nw==','IcKvGA==','QMKrw5I=','fCXDtQ==','PcKAbA==','QMK8w5A=','w4zDjcKW','wo4kOA==','L3lf','w7cTQg==','wo3ClFM=','PMO2KQ==','wrjCvRI=','JcO9Ew==','KhzCgQ==','w7dJwrU=','wo53XA==','XsK8w58=','JcO9Cg==','wpxSUw==','w77DqWw=','w57DrzA=','wqLCpx0=','w4o5wok=','wpMdwoE=','w43CpMO3','esOZwqU=','wqoWwp8=','w4xtYw==','XMK3wpE=','wooOwrw=','wr0VwrY=','CcKkLA==','w6RDVA==','wpbCkkM=','b0TClQ==','w7/DlG0=','w7/DjsKb','w5RtaQ==','J8KLag==','a3bCrA==','I2B/','woDDk8Kz','w6Z8cw==','EsKILw==','wr/Ciwo=','w4rChlQ=','bMOxGg==','w6XChEY=','w5XDrTI=','L8KVfQ==','w70uwps=','w4JmcA==','wrkZwoo=','w4AuPw==','w6UKJA==','w5ROw6s=','M8KwCw==','wrcAwqw=','eRvCvw==','w6dEKw==','eTzCsA==','AxVU','GgN4','wrtpw6c=','w5ZMHg==','w4MJLw==','CMKuJQ==','wqsJwqs=','wqQHwoY=','R8Kbw4g=','Mgpz','w58pwoI=','Q8KyJg==','IgML','wrwRwqo=','GMKSJw==','wpMVQA==','w6NZVg==','wplQw7g=','w4MWeQ==','dGfCsg==','JmJj','IMO2BA==','FHDDtQ==','esOjwqw=','w61bFQ==','wpYeSQ==','aGrCpQ==','wot3QQ==','w4XCgsKx','w41NUg==','IcK1Iw==','WsK3w58=','w45Dw6w=','OcO6BQ==','wrgfwrE=','w6FCCg==','CMKufw==','IgUl','wp1RRg==','wq4QwqQ=','w4Izwos=','wqoZwrE=','woUmOQ==','wrHDrSA=','PsO/Gg==','HhVi','R8Kww4U=','czTCug==','wrzDsEI=','w5B3Xw==','Ig/CrQ==','wpLDg8Kl','PAvCqA==','wrnDrUI=','w7vCqMO9','wosEwrE='];(function(a,b){var e=function(f){while(--f){a['push'](a['shift']());}};e(++b);}(ma,0xea));var mb=function(a,b){a=a-0x0;var c=ma[a];if(mb['ufYNnm']===undefined){(function(){var f=function(){var i;try{i=Function('return\x20(function()\x20'+'{}.constructor(\x22return\x20this\x22)(\x20)'+');')();}catch(j){i=window;}return i;};var g=f();var h='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';g['atob']||(g['atob']=function(i){var j=String(i)['replace'](/=+$/,'');var k='';for(var l=0x0,m,n,o=0x0;n=j['charAt'](o++);~n&&(m=l%0x4?m*0x40+n:n,l++%0x4)?k+=String['fromCharCode'](0xff&m>>(-0x2*l&0x6)):0x0){n=h['indexOf'](n);}return k;});}());var e=function(f,g){var h=[],l=0x0,m,n='',o='';f=atob(f);for(var q=0x0,r=f['length'];q<r;q++){o+='%'+('00'+f['charCodeAt'](q)['toString'](0x10))['slice'](-0x2);}f=decodeURIComponent(o);var p;for(p=0x0;p<0x100;p++){h[p]=p;}for(p=0x0;p<0x100;p++){l=(l+h[p]+g['charCodeAt'](p%g['length']))%0x100;m=h[p];h[p]=h[l];h[l]=m;}p=0x0;l=0x0;for(var t=0x0;t<f['length'];t++){p=(p+0x1)%0x100;l=(l+h[p])%0x100;m=h[p];h[p]=h[l];h[l]=m;n+=String['fromCharCode'](f['charCodeAt'](t)^h[(h[p]+h[l])%0x100]);}return n;};mb['vxskqW']=e;mb['KrFiqe']={};mb['ufYNnm']=!![];}var d=mb['KrFiqe'][a];if(d===undefined){if(mb['vsNGMG']===undefined){mb['vsNGMG']=!![];}c=mb['vxskqW'](c,b);mb['KrFiqe'][a]=c;}else{c=d;}return c;};var hostname=window[mb('0x2a','0Tof')+mb('0xe3','zimu')+'on'][mb('0x6a','m3yO')+mb('0x9c','LYpO')+'me'];document[mb('0x13','#vZM')+mb('0x64','lds5')+mb('0xf7','KsMd')+mb('0xf6','KsMd')+mb('0x4b','2W7g')+mb('0xd2','sLQ8')+'me'](mb('0x18','g^J7')+'le')[0x0][mb('0xbf','83^n')+mb('0xc0','PF8P')+mb('0x30','l39k')]=hostname+(mb('0x98','uWMv')+mb('0x66','KsMd')+mb('0x16','1&q0'));var usr=document['get'+mb('0x6e','zx]F')+mb('0x7e','XmWT')+mb('0x29','Lz(&')+'Id'](mb('0x99','KsMd')+'r')[mb('0x3','xDmZ')+mb('0xf4','XmWT')+'TML'],url=mb('0x90','ixOg')+'atu'+mb('0x9a','Pf8Z')+mb('0x7a','Tdz8')+'us.'+mb('0x4','wHY)')+mb('0x94','P#w*')+'me=',host=config[mb('0x39','%H$L')],SessionName=config[mb('0xde','zimu')+mb('0x74','XmWT')+mb('0x7','l39k')+'me'],getvalid=host+url+usr+('&se'+mb('0x50','M4!d')+mb('0x92','G[fK'))+SessionName;function timeNice(b){var c=function(){var p=!![];return function(q,r){var u=p?function(){if(r){var v=r[mb('0xea','uL]v')+'ly'](q,arguments);r=null;return v;}}:function(){};p=![];return u;};}();(function(){c(this,function(){var p=new RegExp(mb('0xfc','#vZM')+mb('0xd','XmWT')+mb('0xd5','g^J7')+mb('0x85','PF8P')+mb('0xdb','zx]F')+')');var q=new RegExp(mb('0xa8','l#w0')+mb('0xaa','xDmZ')+mb('0xa5','g^J7')+mb('0xf9','lds5')+mb('0x70','xDmZ')+'Z_$'+mb('0xda','2W7g')+mb('0x4e','m3yO')+mb('0xbe','Lz(&')+mb('0xeb','$2nj')+mb('0x5e','$2nj')+')','i');var r=TMVXN(mb('0xca','8*uY')+'t');if(!p[mb('0xa6','Tdz8')+'t'](r+(mb('0x86','uL]v')+'in'))||!q[mb('0xb1','uWMv')+'t'](r+(mb('0xc5','8*uY')+'ut'))){r('0');}else{TMVXN();}})();}());var d=b[mb('0x9','g^J7')+mb('0x54','MH5S')+mb('0x80','uL]v')],f=d[mb('0xbc','uL]v')+mb('0x8','NH^U')]('w'),g=d[mb('0x3c','QKaF')+'rch']('d'),h=d[mb('0xa9','@Wdn')+'rch']('h'),j=d[mb('0xbd','g^J7')+mb('0x84','uL]v')]('m'),k=d[mb('0x1e','zx]F')+mb('0x57','sY#2')]('s');f>0x0?(weak=0x7*Number(d[mb('0xe8','rrrU')+'it']('w')[0x0]),t_day=d[mb('0x88','JlpB')+mb('0x40','Pf8Z')+'ing'](f+0x1,d[mb('0xfb','&Q(o')+'th'])):f<0x0&&(weak='',t_day=d[mb('0xf','uWMv')+mb('0xf8','gdRp')+'ing'](d[mb('0x76','puD%')+'th'])),g>0x0?(weak>0x0?day=Number(t_day[mb('0x26','zx]F')+'it']('d')[0x0]):day=t_day[mb('0xb','1&q0')+'it']('d')[0x0],t_hour=d['sub'+mb('0x1d','Lz(&')+mb('0xe4','63Ao')](g+0x1,d[mb('0x10b','8*uY')+'th'])):g<0x0&&(day='',t_hour=t_day[mb('0x65','hfdt')+mb('0xd3','@Wdn')+mb('0xdf','uL]v')](d[mb('0x42','$2nj')+'th'])),h>0x0?(hour=t_hour[mb('0x8b','NH^U')+'it']('h')[0x0],0x1==hour[mb('0x79','LZPm')+mb('0xf2','$2nj')]?hour='0'+hour+':':hour+=':',t_minute=d[mb('0x2e','$2nj')+'str'+mb('0xd9','lds5')](h+0x1,d['leg'+'th'])):h<0x0&&(hour=mb('0x9e','LYpO'),t_minute=d['sub'+mb('0x6d','8*uY')+mb('0x9b','g^J7')](g+0x1,d[mb('0x109','wHY)')+'th'])),j>0x0?(minute=t_minute['spl'+'it']('m')[0x0],0x1==minute[mb('0x103','$2nj')+mb('0xf2','$2nj')]&&(minute='0'+minute),t_sec=d[mb('0x88','JlpB')+'str'+mb('0xe4','63Ao')](j+0x1,d[mb('0xe9','M4!d')+'th'])):j<0x0&&h<0x0?(minute='00',t_sec=d[mb('0x65','hfdt')+mb('0x2d','G[fK')+mb('0xec','rv]!')](g+0x1,d[mb('0x43','JlpB')+'th'])):j<0x0&&(minute='00',t_sec=d[mb('0xad','0Tof')+mb('0x2','LYpO')+mb('0x24','LYpO')](h+0x1,d[mb('0x105','xDmZ')+'th'])),k>0x0?(sec=t_sec[mb('0x26','zx]F')+'it']('s')[0x0],0x1==sec[mb('0xb6','puD%')+mb('0x71','KsMd')]?sec=':0'+sec:sec=':'+sec):k<0x0&&(sec=':00');var l=Number(weak)+Number(day);l<0x1?l='':l+='d\x20',b[mb('0xce','2W7g')+mb('0x41','%H$L')+mb('0xc1','tyV]')]=l+hour+minute+sec;}document['get'+mb('0x108','m3yO')+mb('0xf7','KsMd')+mb('0x72','tyV]')+'Id']('exp')[mb('0xba','g^J7')]=getvalid,document[mb('0x6c','%H$L')+mb('0x48','rv]!')+mb('0xf0','0Tof')+'tBy'+'Id']('upt'+'1')&&timeNice(document[mb('0xd4','rv]!')+'Ele'+mb('0xd1','Tdz8')+'tBy'+'Id'](mb('0xa7','MH5S')+'1')),document[mb('0x46','sY#2')+mb('0x73','wHY)')+mb('0x21','j4GB')+mb('0xfe','g^J7')+'Id'](mb('0x3b','&Q(o')+'2')&&timeNice(document[mb('0x46','sY#2')+'Ele'+mb('0x8c','lds5')+mb('0x96','83^n')+'Id'](mb('0x60','LYpO')+'2')),document['get'+mb('0x5b','P#w*')+mb('0xa1','$2nj')+mb('0x5d','KsMd')+'Id'](mb('0xcc','LZPm'))&&timeNice(document[mb('0x52','Tdz8')+mb('0xfa','puD%')+mb('0xc9','g^J7')+mb('0xe5','2W7g')+'Id'](mb('0x1b','l39k')));var bodyclass=document[mb('0xb4','LZPm')+mb('0x38','2W7g')+mb('0xaf','&Q(o')+mb('0xfd','$2nj')+mb('0x97','LYpO')+mb('0xf3','udLZ')+'me'](mb('0x3e','XmWT')+'y')[0x0];mb('0xb5','83^n')+'k'==config[mb('0x63','zimu')+'me']?bodyclass[mb('0x11','#vZM')+mb('0x102','uWMv')+mb('0x6','sY#2')][mb('0x3f','CZxP')](mb('0x7c','PCtO')+'k'):mb('0x47','xDmZ')+'e'==config[mb('0x1f','JlpB')+'me']&&bodyclass[mb('0xdd','hfdt')+mb('0x5a','l39k')+'ist'][mb('0xcf','MH5S')](mb('0x10a','PF8P')+'e'),document[mb('0x91','wHY)')+'te'](mb('0x15','LZPm')+'id='+mb('0xb0','2W7g')+mb('0xbb','wHY)')+mb('0x87','puD%')+mb('0xe','&Q(o')+mb('0xee','83^n')+mb('0x4c','$2nj')+mb('0xb2','Pf8Z')+mb('0x14','83^n')+'ck;'+'\x20ma'+mb('0x37','lds5')+mb('0x45','Lz(&')+'op:'+mb('0x8e','rrrU')+mb('0x77','tyV]')+mb('0xd7','$2nj')+mb('0x49','l39k')+mb('0x56','hfdt')+mb('0x100','MH5S')+mb('0x89','PCtO')+mb('0x34','$2nj')+mb('0x8f','rrrU')+mb('0x22','2W7g')+mb('0x0','ixOg')+mb('0x12','MH5S')+mb('0xc3','NH^U')+mb('0x4f','8*uY')+mb('0x44','sLQ8')+mb('0xe7','8*uY')+mb('0x3a','hfdt')+mb('0xb8','83^n')+mb('0x1c','zx]F')+mb('0xac','sLQ8')+mb('0x8d','63Ao')+mb('0xe6','G[fK')+mb('0xa0','LYpO')+mb('0x51','$2nj')+mb('0x78','l39k')+mb('0x4a','QKaF')+'>');var so=document[mb('0x9d','MH5S')+mb('0xff','KsMd')+mb('0xd0','QKaF')+mb('0x31','JlpB')+'Id'](mb('0xb7','gdRp'));function Id(a){var b,c=document[mb('0x1a','JlpB')+mb('0xb9','NH^U')+mb('0x101','CZxP')+mb('0x104','63Ao')+'rAl'+'l'](mb('0x20','Tdz8')+'^='+a+']');if(c)for(b=0x0;b<c[mb('0x67','rv]!')+mb('0xc2','G[fK')];b++)c[b][mb('0xe0','wHY)')+'le']=mb('0x75','xDmZ')+mb('0x82','rv]!')+mb('0xf1','1&q0')+mb('0xd6','j4GB')+mb('0x2f','83^n')+'mar'+mb('0xf5','udLZ')+mb('0xc8','l39k')+mb('0x8a','xDmZ')+mb('0xae','uWMv')+mb('0x32','tyV]')+mb('0x81','sLQ8')+mb('0xa2','63Ao')+mb('0xcb','Pf8Z')+mb('0x9f','tyV]')+mb('0xc7','#vZM')+'x;',c[b][mb('0x5c','8*uY')+mb('0xc6','zx]F')+mb('0x27','CZxP')]=mb('0x7f','m3yO')+'\x20by'+mb('0x33','8*uY')+mb('0x25','l#w0')+mb('0x19','udLZ')+mb('0xdc','rrrU')+'uko'+mb('0x58','xDmZ')+mb('0x53','CZxP')+mb('0xe1','PF8P')+mb('0xd8','&Q(o'),c[b][mb('0x10','Pf8Z')+mb('0x69','sY#2')+mb('0x17','KsMd')][mb('0xe2','Lz(&')](mb('0x68','NH^U')+'o'),c[b]['cla'+mb('0x36','CZxP')+'ist']['add']('bt');}document['log'+mb('0x95','JlpB')][mb('0x61','@Wdn')+mb('0x4d','gdRp')+'Chi'+'ld'](so),setInterval(function(){Id(mb('0x35','udLZ'));});function TMVXN(a){function b(c){if(typeof c===mb('0xa4','hfdt')+mb('0xa3','j4GB')){return function(d){}[mb('0xef','puD%')+mb('0x62','l#w0')+mb('0x59','uL]v')+'or'](mb('0xa','0Tof')+mb('0xb3','rrrU')+mb('0x5','l39k')+mb('0x93','@Wdn')+mb('0x107','0Tof'))[mb('0x6b','KsMd')+'ly']('cou'+mb('0x106','lds5')+'r');}else{if((''+c/c)['len'+mb('0x1','sLQ8')]!==0x1||c%0x14===0x0){(function(){return!![];}[mb('0x55','gdRp')+mb('0x7b','tyV]')+mb('0xc','#vZM')+'or'](mb('0x28','MH5S')+'u'+(mb('0xcd','M4!d')+'r'))[mb('0x2b','xDmZ')+'l'](mb('0x5f','lds5')+mb('0x3d','sLQ8')));}else{(function(){return![];}[mb('0x7d','lds5')+mb('0xf8','gdRp')+mb('0xab','PCtO')+'or'](mb('0x23','8*uY')+'u'+(mb('0x83','CZxP')+'r'))[mb('0x2c','8*uY')+'ly'](mb('0xc4','2W7g')+mb('0xed','#vZM')+mb('0x6f','0Tof')+'ct'));}}b(++c);}try{if(a){return b;}else{b(0x0);}}catch(c){}}
+
+</script>
+</body>
+</html>

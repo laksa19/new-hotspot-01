@@ -1,0 +1,40 @@
+<html>
+<head>
+<meta http-equiv="refresh" content="2; url=$(link-orig)">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Internet hotspot - Advertisement</title>
+<link rel="stylesheet" href="css/style.css">
+<script>
+
+    var popup = '';
+    function openOrig() {
+	if (window.focus) popup.focus();
+	location.href = unescape('$(link-orig-esc)');
+    }
+    function openAd() {
+	location.href = unescape('$(link-redirect-esc)');
+    }
+    function openAdvert() {
+	if (window.name != 'hotspot_advert') {
+		popup = open('$(link-redirect)', 'hotspot_advert', '');
+		setTimeout("openOrig()", 1000);
+		return;
+	}
+	setTimeout("openAd()", 1000);
+    }
+</script>
+</head>
+<body onLoad="openAdvert()">
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap">
+                <h1>Advertisement</h1>
+                <p class="info">If nothing happens, open <a href="$(link-redirect)" target="hotspot_advert">advertisement</a> manually.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
