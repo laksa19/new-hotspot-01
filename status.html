@@ -46,6 +46,9 @@ $(endif)
                         <tr><td>IP address</td><td>$(ip)</td></tr>
                         <tr><td>MAC address</td><td>$(mac)</td></tr>
                         <tr><td>Bytes up / down</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
+		    $(if remain-bytes-total)
+                        <tr><td>Data left</td><td>$(remain-bytes-total-nice)</td></tr>
+                    $(endif)     
                     $(if session-time-left)
                         <tr><td>Connected / left</td><td><span id="upt1">$(uptime)</span> / <span id="stl">$(session-time-left)</span></td></tr>
                     $(else)
